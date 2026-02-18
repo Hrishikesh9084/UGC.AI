@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+    /* Font families */
+    --font-sans: 'Inter', sans-serif;
+    --font-urbanist: 'Urbanist', sans-serif;
+
+    /* Colors */
+    --color-primary: #1EFF00;
+    --color-secondary: #15B100;
+}
+
+
+#img-product{
+    animation: img-product 4s ease-in-out infinite;
+}
+#img-model{
+    animation: img-model 4s ease-in-out infinite;
+}
+
+@keyframes img-product {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Adjust the distance of the float */
+  }
+}
+
+@keyframes img-model {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Adjust the distance of the float */
+  }
+}
+
+*{
+    font-family: "Outfit", sans-serif;
+}
+
+@layer base {
+    body {
+        @apply bg-black text-white text-sm antialiased;
+    }
+
+    button {
+        @apply cursor-pointer;
+    }
+}
