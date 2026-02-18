@@ -207,8 +207,12 @@ export const createVideo = async (req: Request, res: Response) => {
             include: { user: true }
         })
 
-        if (!project || !project.isGenerating) {
-            return res.status(404).json({ message: 'Generation in progress' });
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+
+        if (project.isGenerating) {
+            return res.status(400).json({ message: 'A generation is already in progress' });
         }
 
         if (project.generatedVideo) {
