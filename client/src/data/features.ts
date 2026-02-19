@@ -1,4 +1,4 @@
-import { BotIcon, WorkflowIcon, PlugIcon, ShieldCheckIcon, BarChartIcon, CpuIcon, UploadCloud, UploadIcon, CloudLightning, Sparkle, Zap, FileVideoCamera, CameraIcon, Video } from "lucide-react";
+import { UploadIcon, Zap, Video } from "lucide-react";
 import type { IFeature } from "../types";
 
 export const features: IFeature[] = [
