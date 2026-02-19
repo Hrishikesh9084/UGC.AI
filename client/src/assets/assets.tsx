@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import logotwo from './logotwo.svg';
 import product1 from './product1.jpg'; // white watch
 import product2 from './product2.jpg'; // polaroid camera
 import product3 from './product3.jpg'; // sunglasses
@@ -17,6 +18,7 @@ import generatedVideo2 from './generatedVideo2.mp4'; // random product women 16:
 
 export const assets = {
     logo,
+    logotwo,
     product1,
     product2,
     product3,

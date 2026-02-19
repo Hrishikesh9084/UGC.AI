@@ -2,22 +2,40 @@ import { useEffect, useState } from 'react'
 import type { Project } from '../types';
 import ProjectCard from '../components/ProjectCard';
 import { Loader2 } from 'lucide-react';
+import { useAuth, useUser } from '@clerk/clerk-react';
+import api from '../configs/axios';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const MyGenerations = () => {
+
+    const { getToken } = useAuth();
+    const { user, isLoaded } = useUser();
+    const navigate = useNavigate();
 
     const [generations, setGenerations] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchMyGenerations = async ()=> {
-        setTimeout(()=>{
-            setGenerations([]);
+    const fetchMyGenerations = async () => {
+        try {
+            const token = await getToken();
+            const { data } = await api.get('/api/user/projects', { headers: { Authorization: `Bearer ${token}` } });
+            setGenerations(data.projects);
             setLoading(false);
-        },3000)
+        } catch (error: any) {
+            setLoading(false);
+            toast.error(error?.response?.data?.message || error.message);
+            console.log(error)
+        }
     }
 
-    useEffect(()=>{
-        fetchMyGenerations()
-    },[])
+    useEffect(() => {
+        if (user) {
+            fetchMyGenerations()
+        } else if (isLoaded && !user) {
+            navigate('/')
+        }
+    }, [])
 
     return loading ? (
         <div className='flex items-center justify-center min-h-screen'>

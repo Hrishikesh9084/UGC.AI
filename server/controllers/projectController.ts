@@ -262,8 +262,12 @@ export const createVideo = async (req: Request, res: Response) => {
 
         fs.mkdirSync('videos', { recursive: true });
 
-        if (!operation.response.generatedVideos) {
-            throw new Error(operation.response.raiMediaFilteredReason[0])
+        if (!operation.response || !operation.response.generatedVideos || operation.response.generatedVideos.length === 0) {
+            let errorMessage = 'Video generation failed for an unknown reason.';
+            if (operation.response && operation.response.raiMediaFilteredReason && operation.response.raiMediaFilteredReason.length > 0) {
+                errorMessage = operation.response.raiMediaFilteredReason[0];
+            }
+            throw new Error(errorMessage);
         }
 
         //  Download the video
