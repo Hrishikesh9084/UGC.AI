@@ -7,6 +7,7 @@ import fs from 'fs';
 import path from 'path'
 import ai from "../configs/ai.js";
 import axios from "axios";
+import { error } from "console";
 
 const loadImage = (path: string, mimeType: string) => {
     return {
@@ -263,7 +264,8 @@ export const createVideo = async (req: Request, res: Response) => {
         fs.mkdirSync('videos', { recursive: true });
 
         if (!operation.response || !operation.response.generatedVideos || operation.response.generatedVideos.length === 0) {
-            let errorMessage = 'Video generation failed for an unknown reason.';
+            console.error('Video generation failed. Full operation object:', JSON.stringify(operation, null, 2));
+            let errorMessage = 'Video generation failed';
             if (operation.response && operation.response.raiMediaFilteredReason && operation.response.raiMediaFilteredReason.length > 0) {
                 errorMessage = operation.response.raiMediaFilteredReason[0];
             }
@@ -306,7 +308,7 @@ export const createVideo = async (req: Request, res: Response) => {
             // add credit back
             await prisma.user.update({
                 where: { id: userId },
-                data: { credits: { increment: 5 } }
+                data: { credits: { increment: 10 } }
             })
         }
         Sentry.captureException(error);
