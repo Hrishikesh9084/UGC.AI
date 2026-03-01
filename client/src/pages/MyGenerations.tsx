@@ -58,7 +58,7 @@ const MyGenerations = () => {
                     <div className='text-center py-20 bg-white/5 rounded-xl border border-white/10'>
                         <h3 className='text-xl font-medium mb-2'>No generations yet.</h3>
                         <p className='text-gray-400 mb-6'>Start creating stunning product photos today.</p>
-                        <button className='px-6 py-3 bg-indigo-700 rounded-md hover:bg-indigo-800 transition-colors' onClick={() => window.location.href = '/generate'}>Create New Generation</button>
+                        <button className='px-6 py-3 bg-indigo-700 rounded-md hover:bg-indigo-800 transition-colors' onClick={()=> navigate('/generate')}>Create New Generation</button>
                     </div>
                 )}
             </div>
