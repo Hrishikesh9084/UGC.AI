@@ -217,11 +217,12 @@ export const createVideo = async (req, res) => {
         const filepath = path.join('videos', filename);
         fs.mkdirSync('videos', { recursive: true });
         if (!operation.response || !operation.response.generatedVideos || operation.response.generatedVideos.length === 0) {
-            console.error('Video generation failed. Full operation object:', JSON.stringify(operation, null, 2));
             let errorMessage = 'Video generation failed';
             if (operation.response && operation.response.raiMediaFilteredReason && operation.response.raiMediaFilteredReason.length > 0) {
-                errorMessage = operation.response.raiMediaFilteredReason[0];
+                errorMessage = `Video generation failed due to content filtering: ${operation.response.raiMediaFilteredReason[0]}`;
+                console.error('Video generation failed due to RAI filters. Reason:', operation.response.raiMediaFilteredReason[0]);
             }
+            console.error('Video generation failed. Full operation object:', JSON.stringify(operation, null, 2));
             throw new Error(errorMessage);
         }
         //  Download the video
