@@ -51,7 +51,6 @@ export const Navbar = () => {
         <div className="sticky top-0 left-0 w-full h-16 z-50 bg-black flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-800">
             <Link to='/' onClick={() => scrollTo(0, 0)} className="flex items-center gap-2 z-50">
                 <img src={assets.logo} alt="Logo" width={127} height={32} />
-                {/* <h1 className="md:text-4xl md:ml-10 text-3xl font-bold">UGC.<span className="text-indigo-600">AI</span></h1> */}
             </Link>
             <div className="absolute left-1/2 transform -translate-x-1/2 max-md:hidden">
                 <ul className="flex items-center gap-8">

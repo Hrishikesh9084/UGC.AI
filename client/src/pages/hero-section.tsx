@@ -1,7 +1,8 @@
 import { ArrowDownRightIcon, ArrowRight, TrendingUpIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const HeroSection = () => {
+    const navigate = useNavigate();
     return (
         <>
             <div className="flex flex-col max-md:px-2 items-center justify-center">
@@ -16,11 +17,12 @@ export const HeroSection = () => {
                     Upload product images and a model photo — our AI instantly produces professional lifestyle imagery and short-form videos optimized for commercials & Reels.
                 </p>
                 <div className="mt-8 flex items-center justify-center gap-4">
-                    <Link to='/generate' className="bg-indigo-500 gap-1  flex transition duration-300 text-white px-6 py-2.5 rounded-lg">
-                        Start Generating <ArrowRight className="size-5 hover:gap-1 "/>
-                    </Link>
+                    <button className="bg-indigo-700 border border-gray-600 md:text-sm text-zinc-300 px-4 py-2.5 rounded-lg hover:bg-indigo-800" onClick={() => navigate('/generate')}>
+                        Starting Generating
+                        <ArrowRight className="ml-1 size-5 inline-flex " />
+                    </button>
                     <button className="border border-gray-600 text-zinc-300 px-4 py-2.5 rounded-lg hover:bg-gray-900">
-                        See How It Works
+                        Watch Demo
                         <ArrowDownRightIcon className="ml-1 size-5 inline-flex" />
                     </button>
                 </div>
