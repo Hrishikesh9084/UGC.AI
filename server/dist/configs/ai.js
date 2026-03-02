@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const genai_1 = require("@google/genai");
-const ai = new genai_1.GoogleGenAI({
+import { GoogleGenAI } from '@google/genai';
+const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_CLOUD_API_KEY,
 });
-exports.default = ai;
+export default ai;

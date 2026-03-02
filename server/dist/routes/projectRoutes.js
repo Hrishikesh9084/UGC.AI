@@ -1,15 +1,10 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const projectController_js_1 = require("../controllers/projectController.js");
-const auth_js_1 = require("../middlewares/auth.js");
-const multer_js_1 = __importDefault(require("../configs/multer.js"));
-const projectRouter = express_1.default.Router();
-projectRouter.post('/create', multer_js_1.default.array('images', 2), auth_js_1.protect, projectController_js_1.createProject);
-projectRouter.post('/video', auth_js_1.protect, projectController_js_1.createVideo);
-projectRouter.get('/published', projectController_js_1.getAllPublishedProjects);
-projectRouter.delete('/:projectId', auth_js_1.protect, projectController_js_1.deleteProject);
-exports.default = projectRouter;
+import express from "express";
+import { createProject, createVideo, deleteProject, getAllPublishedProjects } from "../controllers/projectController.js";
+import { protect } from "../middlewares/auth.js";
+import upload from "../configs/multer.js";
+const projectRouter = express.Router();
+projectRouter.post('/create', upload.array('images', 2), protect, createProject);
+projectRouter.post('/video', protect, createVideo);
+projectRouter.get('/published', getAllPublishedProjects);
+projectRouter.delete('/:projectId', protect, deleteProject);
+export default projectRouter;

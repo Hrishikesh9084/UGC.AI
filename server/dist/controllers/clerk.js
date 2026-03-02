@@ -1,50 +1,15 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-const webhooks_1 = require("@clerk/express/webhooks");
-const prisma_js_1 = require("../configs/prisma.js");
-const Sentry = __importStar(require("@sentry/node"));
+import { verifyWebhook } from "@clerk/express/webhooks";
+import { prisma } from "../configs/prisma.js";
+import * as Sentry from "@sentry/node";
 const clerkWebhooks = async (req, res) => {
     try {
-        const evt = await (0, webhooks_1.verifyWebhook)(req);
+        const evt = await verifyWebhook(req);
         // Getting data from different events
         const { data, type } = evt;
         // Switch cases for different Event
         switch (type) {
             case "user.created": {
-                await prisma_js_1.prisma.user.create({
+                await prisma.user.create({
                     data: {
                         id: data.id,
                         email: data?.email_addresses[0]?.email_address,
@@ -55,7 +20,7 @@ const clerkWebhooks = async (req, res) => {
                 break;
             }
             case "user.updated": {
-                await prisma_js_1.prisma.user.update({
+                await prisma.user.update({
                     where: {
                         id: data.id
                     },
@@ -69,7 +34,7 @@ const clerkWebhooks = async (req, res) => {
                 break;
             }
             case "user.deleted": {
-                await prisma_js_1.prisma.user.delete({ where: { id: data.id } });
+                await prisma.user.delete({ where: { id: data.id } });
                 break;
             }
             case "paymentAttempt.updated": {
@@ -81,7 +46,7 @@ const clerkWebhooks = async (req, res) => {
                         return res.status(400).json({ message: "Invalid plan" });
                     }
                     console.log(planId);
-                    await prisma_js_1.prisma.user.update({
+                    await prisma.user.update({
                         where: { id: clerkUserId },
                         data: {
                             credits: { increment: credits[planId] },
@@ -100,4 +65,4 @@ const clerkWebhooks = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-exports.default = clerkWebhooks;
+export default clerkWebhooks;

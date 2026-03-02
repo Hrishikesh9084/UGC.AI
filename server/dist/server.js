@@ -1,62 +1,24 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-require("./configs/instrument.mjs");
-require("dotenv/config");
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const express_2 = require("@clerk/express");
-const clerk_js_1 = __importDefault(require("./controllers/clerk.js"));
-const Sentry = __importStar(require("@sentry/node"));
-const userRoutes_js_1 = __importDefault(require("./routes/userRoutes.js"));
-const projectRoutes_js_1 = __importDefault(require("./routes/projectRoutes.js"));
-const app = (0, express_1.default)();
+import './configs/instrument.mjs';
+import "dotenv/config";
+import express from 'express';
+import cors from "cors";
+import { clerkMiddleware } from "@clerk/express";
+import clerkWebhooks from "./controllers/clerk.js";
+import * as Sentry from "@sentry/node";
+import userRouter from './routes/userRoutes.js';
+import projectRouter from './routes/projectRoutes.js';
+const app = express();
 // Middleware
-app.use((0, cors_1.default)());
-app.post('/api/clerk', express_1.default.raw({ type: 'application/json' }), clerk_js_1.default);
-app.use(express_1.default.json());
-app.use((0, express_2.clerkMiddleware)());
+app.use(cors());
+app.post('/api/clerk', express.raw({ type: 'application/json' }), clerkWebhooks);
+app.use(express.json());
+app.use(clerkMiddleware());
 const PORT = process.env.PORT;
 app.get('/', (req, res) => {
     res.send('Server is Live!');
 });
-app.use('/api/user', userRoutes_js_1.default);
-app.use('/api/project', projectRoutes_js_1.default);
+app.use('/api/user', userRouter);
+app.use('/api/project', projectRouter);
 app.get("/debug-sentry", function mainHandler(req, res) {
     throw new Error("My first Sentry error!");
 });
