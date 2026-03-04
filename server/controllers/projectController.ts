@@ -259,9 +259,10 @@ export const createVideo = async (req: Request, res: Response) => {
         }
 
         const filename = `${userId}-${Date.now()}.mp4`;
-        const filepath = path.join('videos', filename);
+        const videosDir = path.resolve(process.cwd(), 'videos');
+        const filepath = path.join(videosDir, filename);
 
-        fs.mkdirSync('videos', { recursive: true });
+        fs.mkdirSync(videosDir, { recursive: true });
 
         if (!operation.response || !operation.response.generatedVideos || operation.response.generatedVideos.length === 0) {
             let errorMessage = 'Video generation failed';
