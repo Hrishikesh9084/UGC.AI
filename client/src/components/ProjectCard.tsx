@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import type { Project } from '../types'
 import { useNavigate } from 'react-router-dom'
-import { EllipsisIcon, ImageIcon, Loader2, PlaySquareIcon, Share2Icon, Trash2Icon } from 'lucide-react'
+import { Download, EllipsisIcon, Loader2, PlaySquareIcon, Share2Icon, Trash2Icon } from 'lucide-react'
 import { useAuth } from '@clerk/clerk-react'
 import api from '../configs/axios'
 import toast from 'react-hot-toast'
@@ -87,10 +87,10 @@ const ProjectCard = ({ gen, setGenerations, forCommunity = false }: { gen: Proje
                             <div className="flex flex-col items-end w-32 text-sm">
                                 <ul className={`text-xs ${menuOpen ? 'block' : 'hidden'} overflow-hidden right0 peer-focus:block hoverLblock w-40 bg-black/50 backdrop-blur text-white border border-gray-500/50 rounded-lg shadow-md mt-2 py-1 z-10`}>
                                     {
-                                        gen.generatedImage && <a href="#" download className="flex gap-2 items-center px-4 py-2 hover:bg-black/10 cursor-pointer"><ImageIcon /> Download Image</a>
+                                        gen.generatedImage && <a href="#" download={gen.generatedImage} className="flex gap-2 items-center px-4 py-2 hover:bg-black/10 cursor-pointer"><Download className="size-4" /> Download Image</a>
                                     }
                                     {
-                                        gen.generatedVideo && <a href="#" download className="flex gap-2 items-center px-4 py-2 hover:bg-black/10 cursor-pointer"><PlaySquareIcon /> Download Video</a>
+                                        gen.generatedVideo && <a href="#" download={gen.generatedVideo} className="flex gap-2 items-center px-4 py-2 hover:bg-black/10 cursor-pointer"><PlaySquareIcon /> Download Video</a>
                                     }
                                     {
                                         (gen.generatedVideo || gen.generatedImage) && <button onClick={() => navigator.share({ url: gen.generatedVideo || gen.generatedImage, title: gen.productName, text: gen.productDescription })} className="w-full flex gap-2 items-center px-4 py-2 hover:bg-black/10 cursor-pointer">

@@ -5,6 +5,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { GenerateContentConfig, HarmBlockThreshold, HarmCategory } from '@google/genai';
 import fs from 'fs';
 import path from 'path'
+import os from 'os'
 import ai from "../configs/ai.js";
 import axios from "axios";
 
@@ -259,7 +260,7 @@ export const createVideo = async (req: Request, res: Response) => {
         }
 
         const filename = `${userId}-${Date.now()}.mp4`;
-        const videosDir = path.resolve(process.cwd(), 'videos');
+        const videosDir = path.join(os.tmpdir(), 'videos');
         const filepath = path.join(videosDir, filename);
 
         fs.mkdirSync(videosDir, { recursive: true });
