@@ -7,12 +7,13 @@ export const Footer = () => {
             <footer className="px-6 md:px-16 lg:px-24 xl:px-32 border-t border-gray-800">
                 <div className="border-x p-8 md:p-14 border-gray-800 grid gap-12 md:grid-cols-2">
                     <div>
-                        <img
+                        {/* <img
                             src={assets.logo}
                             alt="Logo Mark"
                             width={130}
                             height={130}
-                        />
+                        /> */}
+                        <h1 className="text-4xl font-semibold">UGC.<span className="text-indigo-700">AI</span></h1>
                         <p className="mt-6 text-sm/7 max-w-sm text-gray-500">
                             Create viral UGC in seconds. Upload product images and a model photo — our AI instantly produces professional lifestyle imagery and short-form videos.
                         </p>
