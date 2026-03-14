@@ -4,6 +4,7 @@ import { FeatureSection } from './feature-section'
 import { FaqSection } from './faq-section'
 import CtaSection from './cta-section'
 import { LogoMarquee } from './logo-marquee'
+import Creations from './creations'
 
 const Home = () => {
     return (
@@ -11,6 +12,7 @@ const Home = () => {
             <HeroSection />
             <LogoMarquee  />
             <FeatureSection />
+            <Creations/>
             <PricingPage />
             <FaqSection />
             <CtaSection />
