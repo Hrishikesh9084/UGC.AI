@@ -1,8 +1,12 @@
-import { ArrowDownRightIcon, ArrowRight, TrendingUpIcon } from "lucide-react";
+import { ArrowDownRightIcon, ArrowRight, TrendingUpIcon, X } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { assets } from "../assets/assets";
 
 export const HeroSection = () => {
     const navigate = useNavigate();
+    const [isDemoOpen, setIsDemoOpen] = useState(false);
+
     return (
         <>
             <div className="flex flex-col max-md:px-2 items-center justify-center">
@@ -21,7 +25,7 @@ export const HeroSection = () => {
                         Starting Generating
                         <ArrowRight className="ml-1 size-5 inline-flex " />
                     </button>
-                    <button className="border border-gray-600 text-zinc-300 px-4 py-2.5 rounded-lg hover:bg-gray-900">
+                    <button className="border border-gray-600 text-zinc-300 px-4 py-2.5 rounded-lg hover:bg-gray-900" onClick={() => setIsDemoOpen(true)}>
                         Watch Demo
                         <ArrowDownRightIcon className="ml-1 size-5 inline-flex" />
                     </button>
@@ -30,6 +34,35 @@ export const HeroSection = () => {
             <div className="p-10">
                 
             </div>
+
+            {isDemoOpen && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4"
+                    onClick={() => setIsDemoOpen(false)}
+                >
+                    <div
+                        className="relative w-full max-w-3xl overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-900"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            className="absolute right-3 top-3 z-10 rounded-full bg-black/60 p-2 text-white hover:bg-black/80"
+                            onClick={() => setIsDemoOpen(false)}
+                            aria-label="Close demo popup"
+                        >
+                            <X className="size-5" />
+                        </button>
+
+                        <video
+                            src={assets.demoVideo}
+                            muted
+                            autoPlay
+                            loop
+                            
+                            className="aspect-video w-full bg-black"
+                        />
+                    </div>
+                </div>
+            )}
         </>
     );
 };

@@ -24,6 +24,8 @@ export const FeatureSection = () => {
                     </div>
                 ))}
             </div>
+
+            <hr className="text-gray-700 w-full mt-8" />
         </div>
     );
 };

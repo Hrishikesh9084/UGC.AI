@@ -20,6 +20,10 @@ const Creations = () => {
             title: "Apple Vision Pro",
             video: "https://res.cloudinary.com/dibg7bjdz/video/upload/v1772671144/yx6vhujvwxtosh2hp9or.mp4",
         },
+        {
+            title: "Men With koenigsegg jesko",
+            video: "https://res.cloudinary.com/dibg7bjdz/video/upload/v1773510381/o9g4ezcgefzyzelo9tma.mp4",
+        },
     ];
 
 
@@ -42,10 +46,10 @@ const Creations = () => {
                     }
                 }
             `}</style>
-            <div className="md:flex flex-col items-center mt-15">
+            <div className="md:flex flex-col items-center mt-15 p-5">
                 <SectionTitle title='Authentic UGC Ads with AI' description='Create content that looks like real customer posts shaky phone videos, natural lighting, imperfections, and authentic UGC-style ads.' />
                 
-                <div className="overflow-hidden w-full relative max-w-6xl mx-auto p-8" onMouseEnter={() => setStopScroll(true)} onMouseLeave={() => setStopScroll(false)}>
+                <div className="overflow-hidden w-full relative max-w-6xl mx-auto p-8 mt-7" onMouseEnter={() => setStopScroll(true)} onMouseLeave={() => setStopScroll(false)}>
                     <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-linear-to-r from-black to-transparent p-10" />
                     <div className="marquee-inner flex w-fit" style={{ animationPlayState: stopScroll ? "paused" : "running", animationDuration: cardData.length * 2500 + "ms" }}>
                         <div className="flex">

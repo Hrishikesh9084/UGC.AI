@@ -113,7 +113,7 @@ const Generator = () => {
                         </div>
                         {/* user Prompt */}
                         <div className='mb-4 text-gray-300'>
-                            <label htmlFor="userPrompt" className='block text-sm mb-4'>User Prompt <span className='text-xs text-white/40'>(optional)</span></label>
+                            <label htmlFor="userPrompt" className='block text-sm mb-4'>User Prompt <span className='text-xs text-indigo-600'>(optional)</span></label>
 
                             <textarea id='userPrompt' rows={4} value={userPrompt} onChange={(e) => setUserPrompt(e.target.value)} placeholder='Describe how you want the narration to be.' className='w-full bg-white/3 rounded-lg border-2 border-white/50 focus:border-white p-4 text-sm outline-none resize-none' />
                         </div>
