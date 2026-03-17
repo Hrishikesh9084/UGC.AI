@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import type { Project } from '../types'
 import { useNavigate } from 'react-router-dom'
-import { Download, EllipsisIcon, Loader2, PlaySquareIcon, Share2Icon, Trash2Icon } from 'lucide-react'
+import { Download, EllipsisIcon, Loader2, PlaySquareIcon, Share2Icon, Trash2Icon, Volume2, VolumeX } from 'lucide-react'
 import { useAuth } from '@clerk/clerk-react'
 import api from '../configs/axios'
 import toast from 'react-hot-toast'
@@ -12,6 +12,8 @@ const ProjectCard = ({ gen, setGenerations, forCommunity = false }: { gen: Proje
 
     const navigate = useNavigate()
     const [menuOpen, setMenuOpen] = useState(false);
+    const [isVideoMuted, setIsVideoMuted] = useState(true);
+    const videoRef = useRef<HTMLVideoElement | null>(null);
 
     const productImage = gen.uploadedImages?.[0];
     const modelImage = gen.uploadedImages?.[1];
@@ -55,7 +57,39 @@ const ProjectCard = ({ gen, setGenerations, forCommunity = false }: { gen: Proje
                     )}
 
                     {gen.generatedVideo && (
-                        <video src={gen.generatedVideo} loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-100 transition duration-500" onMouseEnter={(e) => e.currentTarget.play()} onMouseLeave={(e) => e.currentTarget.pause()} />
+                        <video
+                            ref={videoRef}
+                            src={gen.generatedVideo}
+                            loop
+                            muted={isVideoMuted}
+                            playsInline
+                            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-100 transition duration-500"
+                            onMouseEnter={(e) => e.currentTarget.play()}
+                            onMouseLeave={(e) => {
+                                if (isVideoMuted) {
+                                    e.currentTarget.pause();
+                                }
+                            }}
+                        />
+                    )}
+
+                    {gen.generatedVideo && (
+                        <button
+                            type="button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                const nextMuted = !isVideoMuted;
+                                setIsVideoMuted(nextMuted);
+                                if (!nextMuted) {
+                                    void videoRef.current?.play();
+                                }
+                            }}
+                            className="absolute left-3 bottom-3 z-20 rounded-full bg-black/55 p-2 text-white hover:bg-black/75 transition"
+                            aria-label={isVideoMuted ? 'Unmute video' : 'Mute video'}
+                            title={isVideoMuted ? 'Unmute video' : 'Mute video'}
+                        >
+                            {isVideoMuted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}
+                        </button>
                     )}
 
                     {(!gen?.generatedImage && !gen.generatedVideo) && (

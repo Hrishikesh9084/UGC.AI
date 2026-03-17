@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { Project } from '../types'
-import { ImageIcon, Loader2, RefreshCwIcon, Sparkle, Video, VideoIcon } from 'lucide-react'
+import { ImageIcon, Loader2, RefreshCwIcon, Sparkle, Video, VideoIcon, Volume2, VolumeX } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useAuth, useUser } from '@clerk/clerk-react'
 import api from '../configs/axios'
@@ -16,6 +16,7 @@ const Result = () => {
     const [project, setProjectData] = useState<Project>({} as Project)
     const [loading, setLoading] = useState(true)
     const [isGenerating, setIsGenerating] = useState(false)
+    const [isVideoMuted, setIsVideoMuted] = useState(true)
 
     const fetchProjectData = async () => {
         try {
@@ -91,7 +92,25 @@ const Result = () => {
                         <div className='glass-panel inline-block p-2 rounded-2xl'>
                             <div className={`${project.aspectRatio === '9:16' ? 'aspect-9/16' : 'aspect-video'} sm:max-h-200 rounded-xl bg-gray-900 overflow-hidden relative`}>
                                 {project.generatedVideo ? (
-                                    <video src={project.generatedVideo} controls autoPlay loop muted className='w-full h-full object-cover' />
+                                    <>
+                                        <video
+                                            src={project.generatedVideo}
+                                            controls
+                                            autoPlay
+                                            loop
+                                            muted={isVideoMuted}
+                                            className='w-full h-full object-cover'
+                                        />
+                                        <button
+                                            type='button'
+                                            onClick={() => setIsVideoMuted((prev) => !prev)}
+                                            className='absolute left-3 bottom-3 z-10 rounded-full bg-black/55 p-2 text-white hover:bg-black/75 transition'
+                                            aria-label={isVideoMuted ? 'Unmute video' : 'Mute video'}
+                                            title={isVideoMuted ? 'Unmute video' : 'Mute video'}
+                                        >
+                                            {isVideoMuted ? <VolumeX className='size-4' /> : <Volume2 className='size-4' />}
+                                        </button>
+                                    </>
                                 ) : (
                                     <img src={project.generatedImage} alt="Generated Result" className='w-full h-full object-cover' />
                                 )}
@@ -135,7 +154,7 @@ const Result = () => {
                                     )}
                                 </button>
                             ) : (
-                                <div className='p-3 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-center text-sm font-medium'>
+                                <div className='p-3 bg-green-500/10 border border-indigo-500/20 rounded-xl text-green-400 text-center text-sm font-medium'>
                                     <h3>Video Generated Successfully!</h3>
                                 </div>
                             )}

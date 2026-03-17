@@ -1,4 +1,4 @@
-import { ArrowDownRightIcon, ArrowRight, TrendingUpIcon, X } from "lucide-react";
+import { ArrowDownRightIcon, ArrowRight, TrendingUpIcon, Volume2, VolumeX, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
@@ -6,6 +6,7 @@ import { assets } from "../assets/assets";
 export const HeroSection = () => {
     const navigate = useNavigate();
     const [isDemoOpen, setIsDemoOpen] = useState(false);
+    const [isDemoMuted, setIsDemoMuted] = useState(true);
 
     return (
         <>
@@ -52,9 +53,19 @@ export const HeroSection = () => {
                             <X className="size-5" />
                         </button>
 
+                        <button
+                            type="button"
+                            className="absolute left-3 bottom-3 z-10 rounded-full bg-black/60 p-2 text-white hover:bg-black/80"
+                            onClick={() => setIsDemoMuted((prev) => !prev)}
+                            aria-label={isDemoMuted ? 'Unmute video' : 'Mute video'}
+                            title={isDemoMuted ? 'Unmute video' : 'Mute video'}
+                        >
+                            {isDemoMuted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
+                        </button>
+
                         <video
                             src={assets.demoVideo}
-                            muted
+                            muted={isDemoMuted}
                             autoPlay
                             loop
                             

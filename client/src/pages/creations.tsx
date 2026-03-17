@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { Volume2, VolumeX } from 'lucide-react';
 import { SectionTitle } from '../components/section-title'
 
 const Creations = () => {
     const [stopScroll, setStopScroll] = useState(false);
+    const [mutedMap, setMutedMap] = useState<Record<number, boolean>>({});
     const cardData = [
         {
             title: "Valmiki Ramayan",
@@ -56,7 +58,22 @@ const Creations = () => {
                             {[...cardData, ...cardData].map((card, index) => (
                                 <div key={index} className="w-56 mx-4 h-80 relative group">
                                 
-                                    <video src={card.video} autoPlay muted loop className="w-full h-full object-cover" />
+                                    <video
+                                        src={card.video}
+                                        autoPlay
+                                        muted={mutedMap[index] ?? true}
+                                        loop
+                                        className="w-full h-full object-cover"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setMutedMap((prev) => ({ ...prev, [index]: !(prev[index] ?? true) }))}
+                                        className="absolute left-3 bottom-3 z-20 rounded-full bg-black/55 p-2 text-white hover:bg-black/75 transition"
+                                        aria-label={(mutedMap[index] ?? true) ? 'Unmute video' : 'Mute video'}
+                                        title={(mutedMap[index] ?? true) ? 'Unmute video' : 'Mute video'}
+                                    >
+                                        {(mutedMap[index] ?? true) ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}
+                                    </button>
                                     <div className="flex items-center justify-center px-4 opacity-0 group-hover:opacity-100 transition-all duration-300 absolute bottom-0 backdrop-blur-md left-0 w-full h-full bg-black/20">
                                         <p className="text-white text-lg font-semibold text-center">{card.title}</p>
                                     </div>
