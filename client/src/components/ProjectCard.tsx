@@ -18,6 +18,7 @@ const ProjectCard = ({ gen, setGenerations, forCommunity = false }: { gen: Proje
 
     const productImage = gen.uploadedImages?.[0];
     const modelImage = gen.uploadedImages?.[1];
+    const sharePreviewImage = gen.generatedImage || productImage || modelImage;
 
     const handleDelete = async (id: string) => {
         const confirm = window.confirm("Are you sure you want to delete this generation?");
@@ -269,8 +270,19 @@ const ProjectCard = ({ gen, setGenerations, forCommunity = false }: { gen: Proje
                         </div>
 
                         <div className="bg-white/5 border border-white/10 rounded-lg p-3 mb-4">
-                            <p className="text-sm text-white font-medium truncate">{shareTitle}</p>
-                            <p className="text-xs text-gray-400 mt-1 break-all">{shareUrl}</p>
+                            <div className="flex items-center gap-3">
+                                {sharePreviewImage ? (
+                                    <img src={sharePreviewImage} alt={gen.productName} className="h-14 w-14 rounded-md object-cover border border-white/10" />
+                                ) : (
+                                    <div className="h-14 w-14 rounded-md bg-white/10 border border-white/10 flex items-center justify-center">
+                                        <PlaySquareIcon className="size-5 text-white/70" />
+                                    </div>
+                                )}
+                                <div className="min-w-0">
+                                    <p className="text-sm text-white font-medium truncate">{shareTitle}</p>
+                                    <p className="text-xs text-gray-400 mt-1 break-all">{shareUrl}</p>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-2">
