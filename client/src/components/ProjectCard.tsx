@@ -13,6 +13,7 @@ const ProjectCard = ({ gen, setGenerations, forCommunity = false }: { gen: Proje
     const navigate = useNavigate()
     const [menuOpen, setMenuOpen] = useState(false);
     const [isVideoMuted, setIsVideoMuted] = useState(true);
+    const [isShareOpen, setIsShareOpen] = useState(false);
     const videoRef = useRef<HTMLVideoElement | null>(null);
 
     const productImage = gen.uploadedImages?.[0];
@@ -47,6 +48,54 @@ const ProjectCard = ({ gen, setGenerations, forCommunity = false }: { gen: Proje
         }
     }
 
+    const shareUrl = `${window.location.origin}/share/${gen.id}`;
+    const shareTitle = `${gen.productName} - UGC Video`;
+    const shareText = `Check out this video on UGC.ai: ${shareUrl}`;
+
+    const handleShareProject = async () => {
+
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: shareTitle,
+                    text: shareText,
+                    url: shareUrl,
+                });
+                return;
+            }
+
+            await navigator.clipboard.writeText(shareUrl);
+            toast.success('Share link copied to clipboard');
+        } catch (error: any) {
+            if (error?.name !== 'AbortError') {
+                toast.error('Unable to share link right now');
+            }
+        }
+    }
+
+    const copyShareLink = async () => {
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+            toast.success('Share link copied to clipboard');
+        } catch {
+            toast.error('Failed to copy link');
+        }
+    }
+
+    const openSocialShare = (platform: 'whatsapp' | 'telegram' | 'x' | 'facebook') => {
+        const text = encodeURIComponent(`Check out this video on UGC.ai: ${shareUrl}`);
+        const encodedUrl = encodeURIComponent(shareUrl);
+
+        const urls = {
+            whatsapp: `https://wa.me/?text=${text}`,
+            telegram: `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent('Check out this video on UGC.ai')}`,
+            x: `https://twitter.com/intent/tweet?text=${text}`,
+            facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+        }
+
+        window.open(urls[platform], '_blank', 'noopener,noreferrer');
+    }
+
     return (
         <div key={gen.id} className='mb-4 break-inside-avoid'>
             <div className='bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-white/20 transition group'>
@@ -74,22 +123,37 @@ const ProjectCard = ({ gen, setGenerations, forCommunity = false }: { gen: Proje
                     )}
 
                     {gen.generatedVideo && (
-                        <button
-                            type="button"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                const nextMuted = !isVideoMuted;
-                                setIsVideoMuted(nextMuted);
-                                if (!nextMuted) {
-                                    void videoRef.current?.play();
-                                }
-                            }}
-                            className="absolute left-3 bottom-3 z-20 rounded-full bg-black/55 p-2 text-white hover:bg-black/75 transition"
-                            aria-label={isVideoMuted ? 'Unmute video' : 'Mute video'}
-                            title={isVideoMuted ? 'Unmute video' : 'Mute video'}
-                        >
-                            {isVideoMuted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}
-                        </button>
+                        <div className="absolute left-3 bottom-3 z-20 flex items-center gap-2">
+                            <button
+                                type="button"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const nextMuted = !isVideoMuted;
+                                    setIsVideoMuted(nextMuted);
+                                    if (!nextMuted) {
+                                        void videoRef.current?.play();
+                                    }
+                                }}
+                                className="rounded-full bg-black/55 p-2 text-white hover:bg-black/75 transition"
+                                aria-label={isVideoMuted ? 'Unmute video' : 'Mute video'}
+                                title={isVideoMuted ? 'Unmute video' : 'Mute video'}
+                            >
+                                {isVideoMuted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsShareOpen(true);
+                                }}
+                                className="rounded-full bg-black/55 p-2 text-white hover:bg-black/75 transition"
+                                aria-label="Share video"
+                                title="Share video"
+                            >
+                                <Share2Icon className="size-4" />
+                            </button>
+                        </div>
                     )}
 
                     {(!gen?.generatedImage && !gen.generatedVideo) && (
@@ -127,7 +191,7 @@ const ProjectCard = ({ gen, setGenerations, forCommunity = false }: { gen: Proje
                                         gen.generatedVideo && <a href="#" download={gen.generatedVideo} className="flex gap-2 items-center px-4 py-2 hover:bg-black/10 cursor-pointer"><PlaySquareIcon /> Download Video</a>
                                     }
                                     {
-                                        (gen.generatedVideo || gen.generatedImage) && <button onClick={() => navigator.share({ url: gen.generatedVideo || gen.generatedImage, title: gen.productName, text: gen.productDescription })} className="w-full flex gap-2 items-center px-4 py-2 hover:bg-black/10 cursor-pointer">
+                                        (gen.generatedVideo || gen.generatedImage) && <button onClick={() => setIsShareOpen(true)} className="w-full flex gap-2 items-center px-4 py-2 hover:bg-black/10 cursor-pointer">
                                             <Share2Icon /> Share
                                         </button>
                                     }
@@ -195,6 +259,36 @@ const ProjectCard = ({ gen, setGenerations, forCommunity = false }: { gen: Proje
                     </div>
                 )}
             </div>
+
+            {isShareOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={() => setIsShareOpen(false)}>
+                    <div className="w-full max-w-md rounded-2xl border border-white/10 bg-zinc-900 p-5" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-white text-lg font-semibold">Share</h3>
+                            <button className="text-gray-300 hover:text-white" onClick={() => setIsShareOpen(false)}>x</button>
+                        </div>
+
+                        <div className="bg-white/5 border border-white/10 rounded-lg p-3 mb-4">
+                            <p className="text-sm text-white font-medium truncate">{shareTitle}</p>
+                            <p className="text-xs text-gray-400 mt-1 break-all">{shareUrl}</p>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2">
+                            <button className="rounded-lg bg-green-600/20 text-green-300 px-3 py-2 text-sm hover:bg-green-600/30" onClick={() => openSocialShare('whatsapp')}>WhatsApp</button>
+                            <button className="rounded-lg bg-sky-600/20 text-sky-300 px-3 py-2 text-sm hover:bg-sky-600/30" onClick={() => openSocialShare('telegram')}>Telegram</button>
+                            <button className="rounded-lg bg-zinc-700/40 text-zinc-100 px-3 py-2 text-sm hover:bg-zinc-700/60" onClick={() => openSocialShare('x')}>X</button>
+                            <button className="rounded-lg bg-blue-700/20 text-blue-300 px-3 py-2 text-sm hover:bg-blue-700/30" onClick={() => openSocialShare('facebook')}>Facebook</button>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2 mt-2">
+                            <button className="rounded-lg bg-white/10 text-white px-3 py-2 text-sm hover:bg-white/20" onClick={() => void copyShareLink()}>Copy Link</button>
+                            <button className="rounded-lg bg-indigo-700 text-white px-3 py-2 text-sm hover:bg-indigo-800" onClick={() => void handleShareProject()}>System Share</button>
+                        </div>
+
+                        <p className="text-xs text-gray-400 mt-3">Check out this video on UGC.ai</p>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

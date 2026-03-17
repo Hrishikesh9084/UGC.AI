@@ -9,6 +9,7 @@ import Community from "./pages/Community";
 import Loading from "./pages/Loading";
 import Result from "./pages/Result";
 import Plans from "./pages/Plans";
+import SharedProject from "./pages/SharedProject";
 import { Toaster } from "react-hot-toast";
 // import BlobCursor from "./components/BlobCursor";
 
@@ -45,6 +46,7 @@ export default function App() {
                     <Route path='/result/:projectId' element={<Result />} />
                     <Route path='/my-generation' element={<MyGenerations />} />
                     <Route path='/community' element={<Community />} />
+                    <Route path='/share/:projectId' element={<SharedProject />} />
                     <Route path='/plans' element={<Plans />} />
                     <Route path='/loading' element={<Loading />} />
                 </Routes>

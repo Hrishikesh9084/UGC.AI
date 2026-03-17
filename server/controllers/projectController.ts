@@ -324,11 +324,55 @@ export const getAllPublishedProjects = async (req: Request, res: Response) => {
     try {
 
         const projects = await prisma.project.findMany({
-            where: { isPublished: true }
+            where: { isPublished: true },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
         })
 
         res.json({ projects })
 
+    } catch (error: any) {
+        Sentry.captureException(error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
+// Get one published project by id (public)
+export const getPublishedProjectById = async (req: Request, res: Response) => {
+    try {
+        const { projectId } = req.params as { projectId: string };
+
+        const project = await prisma.project.findFirst({
+            where: {
+                id: projectId,
+                isPublished: true,
+            },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                    }
+                }
+            }
+        })
+
+        if (!project) {
+            return res.status(404).json({ message: 'Published project not found' });
+        }
+
+        res.json({ project })
     } catch (error: any) {
         Sentry.captureException(error);
         res.status(500).json({ message: error.message });
