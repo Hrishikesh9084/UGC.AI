@@ -7,6 +7,7 @@ import clerkWebhooks from "./controllers/clerk.js";
 import * as Sentry from "@sentry/node";
 import userRouter from './routes/userRoutes.js';
 import projectRouter from './routes/projectRoutes.js';
+import voiceAgentRouter from './routes/voiceAgentRoutes.js';
 const app = express();
 // Middleware
 app.use(cors());
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/user', userRouter);
 app.use('/api/project', projectRouter);
+app.use('/api/voice-agent', voiceAgentRouter);
 app.get("/debug-sentry", function mainHandler(req, res) {
     throw new Error("My first Sentry error!");
 });

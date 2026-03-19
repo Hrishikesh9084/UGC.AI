@@ -16,7 +16,10 @@ export const HeroSection = () => {
                     Trusted by 50,000+ users worldwide
                 </div>
                 <h1 className="text-center font-urbanist text-[42px]/13 md:text-7xl/20 font-bold max-w-2xl bg-linear-to-r from-white to-white/50 bg-clip-text text-transparent">
-                    Create viral UGC <br/><span className="text-indigo-700">in seconds </span> 
+                    Generate viral-ready content <br />
+                    <span className="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
+                        in seconds
+                    </span>
                 </h1>
                 <p className="text-center text-base text-zinc-300 max-w-lg mt-4">
                     Upload product images and a model photo — our AI instantly produces professional lifestyle imagery and short-form videos optimized for commercials & Reels.
@@ -33,7 +36,7 @@ export const HeroSection = () => {
                 </div>
             </div>
             <div className="p-10">
-                
+
             </div>
 
             {isDemoOpen && (
@@ -68,7 +71,7 @@ export const HeroSection = () => {
                             muted={isDemoMuted}
                             autoPlay
                             loop
-                            
+
                             className="aspect-video w-full bg-black"
                         />
                     </div>

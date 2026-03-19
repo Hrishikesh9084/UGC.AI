@@ -1,7 +1,6 @@
 import { DollarSign, GalleryHorizontalEnd, MenuIcon, SparkleIcon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { assets } from "../assets/assets";
 import { useClerk, useUser, UserButton, useAuth, } from "@clerk/clerk-react";
 import api from "../configs/axios";
 import toast from "react-hot-toast";
@@ -19,8 +18,9 @@ export const Navbar = () => {
 
     const links = [
         { name: "Home", href: "/" },
-        { name: "Create", href: "/generate" },
-        { name: "Community", href: "/community" },
+        { name: "VoiceAgent", href: "/tools" },
+        { name: "Generate", href: "/generate" },
+        { name: "Explore", href: "/community" },
         { name: "Plans", href: "/plans" },
     ];
 
@@ -50,7 +50,7 @@ export const Navbar = () => {
     return (
         <div className="sticky top-0 left-0 w-full h-16 z-50 bg-black flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-800">
             <Link to='/' onClick={() => scrollTo(0, 0)} className="flex items-center gap-2 z-50">
-               <h1 className="text-4xl font-bold">UGC.<span className="text-indigo-700">AI</span></h1>
+               <h1 className="text-4xl font-bold">Genify<span className="text-xl">.</span><span className="text-indigo-700">AI</span></h1>
             </Link>
             <div className="absolute left-1/2 transform -translate-x-1/2 max-md:hidden">
                 <ul className="flex items-center gap-8">

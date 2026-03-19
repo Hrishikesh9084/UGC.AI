@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  VoiceAgent: 'VoiceAgent',
   Project: 'Project'
 } as const
 
@@ -84,6 +85,21 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const VoiceAgentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  userId: 'userId',
+  voiceURI: 'voiceURI',
+  pitch: 'pitch',
+  rate: 'rate',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VoiceAgentScalarFieldEnum = (typeof VoiceAgentScalarFieldEnum)[keyof typeof VoiceAgentScalarFieldEnum]
+
+
 export const ProjectScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -96,6 +112,7 @@ export const ProjectScalarFieldEnum = {
   uploadedImages: 'uploadedImages',
   generatedImage: 'generatedImage',
   generatedVideo: 'generatedVideo',
+  generatedAudio: 'generatedAudio',
   isGenerating: 'isGenerating',
   isPublished: 'isPublished',
   error: 'error',

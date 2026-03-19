@@ -47,6 +47,11 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
+ * Model VoiceAgent
+ * 
+ */
+export type VoiceAgent = Prisma.VoiceAgentModel
+/**
  * Model Project
  * 
  */

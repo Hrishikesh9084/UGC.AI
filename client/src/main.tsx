@@ -21,8 +21,8 @@ createRoot(document.getElementById('root')!).render(
             }
         }}
         publishableKey={PUBLISHABLE_KEY}>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+            <BrowserRouter> 
+                <App />
+            </BrowserRouter>
     </ClerkProvider>
 )

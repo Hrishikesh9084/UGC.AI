@@ -1,6 +1,18 @@
 import { verifyWebhook } from "@clerk/express/webhooks";
 import { prisma } from "../configs/prisma.js";
 import * as Sentry from "@sentry/node";
+const getDisplayName = (data) => {
+    const firstName = (data?.first_name || '').trim();
+    const lastName = (data?.last_name || '').trim();
+    const fullName = `${firstName} ${lastName}`.trim();
+    if (fullName)
+        return fullName;
+    const primaryEmail = data?.email_addresses?.[0]?.email_address || '';
+    if (primaryEmail) {
+        return primaryEmail.split('@')[0];
+    }
+    return 'User';
+};
 const clerkWebhooks = async (req, res) => {
     try {
         const evt = await verifyWebhook(req);
@@ -13,7 +25,7 @@ const clerkWebhooks = async (req, res) => {
                     data: {
                         id: data.id,
                         email: data?.email_addresses[0]?.email_address,
-                        name: data?.first_name + " " + data?.last_name,
+                        name: getDisplayName(data),
                         image: data?.image_url,
                     }
                 });
@@ -27,7 +39,7 @@ const clerkWebhooks = async (req, res) => {
                     data: {
                         id: data.id,
                         email: data?.email_addresses[0]?.email_address,
-                        name: data?.first_name + " " + data?.last_name,
+                        name: getDisplayName(data),
                         image: data?.image_url,
                     }
                 });

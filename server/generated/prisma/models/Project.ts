@@ -45,6 +45,7 @@ export type ProjectMinAggregateOutputType = {
   targetLength: number | null
   generatedImage: string | null
   generatedVideo: string | null
+  generatedAudio: string | null
   isGenerating: boolean | null
   isPublished: boolean | null
   error: string | null
@@ -63,6 +64,7 @@ export type ProjectMaxAggregateOutputType = {
   targetLength: number | null
   generatedImage: string | null
   generatedVideo: string | null
+  generatedAudio: string | null
   isGenerating: boolean | null
   isPublished: boolean | null
   error: string | null
@@ -82,6 +84,7 @@ export type ProjectCountAggregateOutputType = {
   uploadedImages: number
   generatedImage: number
   generatedVideo: number
+  generatedAudio: number
   isGenerating: number
   isPublished: number
   error: number
@@ -110,6 +113,7 @@ export type ProjectMinAggregateInputType = {
   targetLength?: true
   generatedImage?: true
   generatedVideo?: true
+  generatedAudio?: true
   isGenerating?: true
   isPublished?: true
   error?: true
@@ -128,6 +132,7 @@ export type ProjectMaxAggregateInputType = {
   targetLength?: true
   generatedImage?: true
   generatedVideo?: true
+  generatedAudio?: true
   isGenerating?: true
   isPublished?: true
   error?: true
@@ -147,6 +152,7 @@ export type ProjectCountAggregateInputType = {
   uploadedImages?: true
   generatedImage?: true
   generatedVideo?: true
+  generatedAudio?: true
   isGenerating?: true
   isPublished?: true
   error?: true
@@ -253,6 +259,7 @@ export type ProjectGroupByOutputType = {
   uploadedImages: string[]
   generatedImage: string
   generatedVideo: string
+  generatedAudio: string
   isGenerating: boolean
   isPublished: boolean
   error: string
@@ -295,6 +302,7 @@ export type ProjectWhereInput = {
   uploadedImages?: Prisma.StringNullableListFilter<"Project">
   generatedImage?: Prisma.StringFilter<"Project"> | string
   generatedVideo?: Prisma.StringFilter<"Project"> | string
+  generatedAudio?: Prisma.StringFilter<"Project"> | string
   isGenerating?: Prisma.BoolFilter<"Project"> | boolean
   isPublished?: Prisma.BoolFilter<"Project"> | boolean
   error?: Prisma.StringFilter<"Project"> | string
@@ -315,6 +323,7 @@ export type ProjectOrderByWithRelationInput = {
   uploadedImages?: Prisma.SortOrder
   generatedImage?: Prisma.SortOrder
   generatedVideo?: Prisma.SortOrder
+  generatedAudio?: Prisma.SortOrder
   isGenerating?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   error?: Prisma.SortOrder
@@ -338,6 +347,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   uploadedImages?: Prisma.StringNullableListFilter<"Project">
   generatedImage?: Prisma.StringFilter<"Project"> | string
   generatedVideo?: Prisma.StringFilter<"Project"> | string
+  generatedAudio?: Prisma.StringFilter<"Project"> | string
   isGenerating?: Prisma.BoolFilter<"Project"> | boolean
   isPublished?: Prisma.BoolFilter<"Project"> | boolean
   error?: Prisma.StringFilter<"Project"> | string
@@ -358,6 +368,7 @@ export type ProjectOrderByWithAggregationInput = {
   uploadedImages?: Prisma.SortOrder
   generatedImage?: Prisma.SortOrder
   generatedVideo?: Prisma.SortOrder
+  generatedAudio?: Prisma.SortOrder
   isGenerating?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   error?: Prisma.SortOrder
@@ -385,6 +396,7 @@ export type ProjectScalarWhereWithAggregatesInput = {
   uploadedImages?: Prisma.StringNullableListFilter<"Project">
   generatedImage?: Prisma.StringWithAggregatesFilter<"Project"> | string
   generatedVideo?: Prisma.StringWithAggregatesFilter<"Project"> | string
+  generatedAudio?: Prisma.StringWithAggregatesFilter<"Project"> | string
   isGenerating?: Prisma.BoolWithAggregatesFilter<"Project"> | boolean
   isPublished?: Prisma.BoolWithAggregatesFilter<"Project"> | boolean
   error?: Prisma.StringWithAggregatesFilter<"Project"> | string
@@ -403,6 +415,7 @@ export type ProjectCreateInput = {
   uploadedImages?: Prisma.ProjectCreateuploadedImagesInput | string[]
   generatedImage?: string
   generatedVideo?: string
+  generatedAudio?: string
   isGenerating?: boolean
   isPublished?: boolean
   error?: string
@@ -423,6 +436,7 @@ export type ProjectUncheckedCreateInput = {
   uploadedImages?: Prisma.ProjectCreateuploadedImagesInput | string[]
   generatedImage?: string
   generatedVideo?: string
+  generatedAudio?: string
   isGenerating?: boolean
   isPublished?: boolean
   error?: string
@@ -441,6 +455,7 @@ export type ProjectUpdateInput = {
   uploadedImages?: Prisma.ProjectUpdateuploadedImagesInput | string[]
   generatedImage?: Prisma.StringFieldUpdateOperationsInput | string
   generatedVideo?: Prisma.StringFieldUpdateOperationsInput | string
+  generatedAudio?: Prisma.StringFieldUpdateOperationsInput | string
   isGenerating?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   error?: Prisma.StringFieldUpdateOperationsInput | string
@@ -461,6 +476,7 @@ export type ProjectUncheckedUpdateInput = {
   uploadedImages?: Prisma.ProjectUpdateuploadedImagesInput | string[]
   generatedImage?: Prisma.StringFieldUpdateOperationsInput | string
   generatedVideo?: Prisma.StringFieldUpdateOperationsInput | string
+  generatedAudio?: Prisma.StringFieldUpdateOperationsInput | string
   isGenerating?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   error?: Prisma.StringFieldUpdateOperationsInput | string
@@ -480,6 +496,7 @@ export type ProjectCreateManyInput = {
   uploadedImages?: Prisma.ProjectCreateuploadedImagesInput | string[]
   generatedImage?: string
   generatedVideo?: string
+  generatedAudio?: string
   isGenerating?: boolean
   isPublished?: boolean
   error?: string
@@ -498,6 +515,7 @@ export type ProjectUpdateManyMutationInput = {
   uploadedImages?: Prisma.ProjectUpdateuploadedImagesInput | string[]
   generatedImage?: Prisma.StringFieldUpdateOperationsInput | string
   generatedVideo?: Prisma.StringFieldUpdateOperationsInput | string
+  generatedAudio?: Prisma.StringFieldUpdateOperationsInput | string
   isGenerating?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   error?: Prisma.StringFieldUpdateOperationsInput | string
@@ -517,6 +535,7 @@ export type ProjectUncheckedUpdateManyInput = {
   uploadedImages?: Prisma.ProjectUpdateuploadedImagesInput | string[]
   generatedImage?: Prisma.StringFieldUpdateOperationsInput | string
   generatedVideo?: Prisma.StringFieldUpdateOperationsInput | string
+  generatedAudio?: Prisma.StringFieldUpdateOperationsInput | string
   isGenerating?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   error?: Prisma.StringFieldUpdateOperationsInput | string
@@ -554,6 +573,7 @@ export type ProjectCountOrderByAggregateInput = {
   uploadedImages?: Prisma.SortOrder
   generatedImage?: Prisma.SortOrder
   generatedVideo?: Prisma.SortOrder
+  generatedAudio?: Prisma.SortOrder
   isGenerating?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   error?: Prisma.SortOrder
@@ -576,6 +596,7 @@ export type ProjectMaxOrderByAggregateInput = {
   targetLength?: Prisma.SortOrder
   generatedImage?: Prisma.SortOrder
   generatedVideo?: Prisma.SortOrder
+  generatedAudio?: Prisma.SortOrder
   isGenerating?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   error?: Prisma.SortOrder
@@ -594,6 +615,7 @@ export type ProjectMinOrderByAggregateInput = {
   targetLength?: Prisma.SortOrder
   generatedImage?: Prisma.SortOrder
   generatedVideo?: Prisma.SortOrder
+  generatedAudio?: Prisma.SortOrder
   isGenerating?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   error?: Prisma.SortOrder
@@ -671,6 +693,7 @@ export type ProjectCreateWithoutUserInput = {
   uploadedImages?: Prisma.ProjectCreateuploadedImagesInput | string[]
   generatedImage?: string
   generatedVideo?: string
+  generatedAudio?: string
   isGenerating?: boolean
   isPublished?: boolean
   error?: string
@@ -689,6 +712,7 @@ export type ProjectUncheckedCreateWithoutUserInput = {
   uploadedImages?: Prisma.ProjectCreateuploadedImagesInput | string[]
   generatedImage?: string
   generatedVideo?: string
+  generatedAudio?: string
   isGenerating?: boolean
   isPublished?: boolean
   error?: string
@@ -737,6 +761,7 @@ export type ProjectScalarWhereInput = {
   uploadedImages?: Prisma.StringNullableListFilter<"Project">
   generatedImage?: Prisma.StringFilter<"Project"> | string
   generatedVideo?: Prisma.StringFilter<"Project"> | string
+  generatedAudio?: Prisma.StringFilter<"Project"> | string
   isGenerating?: Prisma.BoolFilter<"Project"> | boolean
   isPublished?: Prisma.BoolFilter<"Project"> | boolean
   error?: Prisma.StringFilter<"Project"> | string
@@ -755,6 +780,7 @@ export type ProjectCreateManyUserInput = {
   uploadedImages?: Prisma.ProjectCreateuploadedImagesInput | string[]
   generatedImage?: string
   generatedVideo?: string
+  generatedAudio?: string
   isGenerating?: boolean
   isPublished?: boolean
   error?: string
@@ -773,6 +799,7 @@ export type ProjectUpdateWithoutUserInput = {
   uploadedImages?: Prisma.ProjectUpdateuploadedImagesInput | string[]
   generatedImage?: Prisma.StringFieldUpdateOperationsInput | string
   generatedVideo?: Prisma.StringFieldUpdateOperationsInput | string
+  generatedAudio?: Prisma.StringFieldUpdateOperationsInput | string
   isGenerating?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   error?: Prisma.StringFieldUpdateOperationsInput | string
@@ -791,6 +818,7 @@ export type ProjectUncheckedUpdateWithoutUserInput = {
   uploadedImages?: Prisma.ProjectUpdateuploadedImagesInput | string[]
   generatedImage?: Prisma.StringFieldUpdateOperationsInput | string
   generatedVideo?: Prisma.StringFieldUpdateOperationsInput | string
+  generatedAudio?: Prisma.StringFieldUpdateOperationsInput | string
   isGenerating?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   error?: Prisma.StringFieldUpdateOperationsInput | string
@@ -809,6 +837,7 @@ export type ProjectUncheckedUpdateManyWithoutUserInput = {
   uploadedImages?: Prisma.ProjectUpdateuploadedImagesInput | string[]
   generatedImage?: Prisma.StringFieldUpdateOperationsInput | string
   generatedVideo?: Prisma.StringFieldUpdateOperationsInput | string
+  generatedAudio?: Prisma.StringFieldUpdateOperationsInput | string
   isGenerating?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   error?: Prisma.StringFieldUpdateOperationsInput | string
@@ -830,6 +859,7 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   uploadedImages?: boolean
   generatedImage?: boolean
   generatedVideo?: boolean
+  generatedAudio?: boolean
   isGenerating?: boolean
   isPublished?: boolean
   error?: boolean
@@ -850,6 +880,7 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   uploadedImages?: boolean
   generatedImage?: boolean
   generatedVideo?: boolean
+  generatedAudio?: boolean
   isGenerating?: boolean
   isPublished?: boolean
   error?: boolean
@@ -870,6 +901,7 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   uploadedImages?: boolean
   generatedImage?: boolean
   generatedVideo?: boolean
+  generatedAudio?: boolean
   isGenerating?: boolean
   isPublished?: boolean
   error?: boolean
@@ -890,6 +922,7 @@ export type ProjectSelectScalar = {
   uploadedImages?: boolean
   generatedImage?: boolean
   generatedVideo?: boolean
+  generatedAudio?: boolean
   isGenerating?: boolean
   isPublished?: boolean
   error?: boolean
@@ -897,7 +930,7 @@ export type ProjectSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "userId" | "productName" | "productDescription" | "userPrompt" | "aspectRatio" | "targetLength" | "uploadedImages" | "generatedImage" | "generatedVideo" | "isGenerating" | "isPublished" | "error" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "userId" | "productName" | "productDescription" | "userPrompt" | "aspectRatio" | "targetLength" | "uploadedImages" | "generatedImage" | "generatedVideo" | "generatedAudio" | "isGenerating" | "isPublished" | "error" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -925,6 +958,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     uploadedImages: string[]
     generatedImage: string
     generatedVideo: string
+    generatedAudio: string
     isGenerating: boolean
     isPublished: boolean
     error: string
@@ -1365,6 +1399,7 @@ export interface ProjectFieldRefs {
   readonly uploadedImages: Prisma.FieldRef<"Project", 'String[]'>
   readonly generatedImage: Prisma.FieldRef<"Project", 'String'>
   readonly generatedVideo: Prisma.FieldRef<"Project", 'String'>
+  readonly generatedAudio: Prisma.FieldRef<"Project", 'String'>
   readonly isGenerating: Prisma.FieldRef<"Project", 'Boolean'>
   readonly isPublished: Prisma.FieldRef<"Project", 'Boolean'>
   readonly error: Prisma.FieldRef<"Project", 'String'>

@@ -1,0 +1,14 @@
+import express from 'express';
+import { createVoiceAgent, getVoiceAgents, updateVoiceAgent, deleteVoiceAgent, generateSpeech, cloneVoice } from '../controllers/voiceAgentController.js';
+import upload from '../configs/multer.js';
+
+const router = express.Router();
+
+router.post('/create', createVoiceAgent);
+router.get('/list', getVoiceAgents);
+router.put('/:id', updateVoiceAgent);
+router.delete('/:id', deleteVoiceAgent);
+router.post('/generate-speech', generateSpeech);
+router.post('/clone-voice', upload.single('audio'), cloneVoice);
+
+export default router;

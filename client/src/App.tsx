@@ -11,6 +11,8 @@ import Result from "./pages/Result";
 import Plans from "./pages/Plans";
 import SharedProject from "./pages/SharedProject";
 import { Toaster } from "react-hot-toast";
+import userInputDialog from './components/VoiceAgent';
+import VoiceAgent from "./components/VoiceAgent";
 // import BlobCursor from "./components/BlobCursor";
 
 export default function App() {
@@ -43,6 +45,7 @@ export default function App() {
                 <Routes>
                     <Route path='/' element={<Home />} />
                     <Route path='/generate' element={<Generator />} />
+                    <Route path='/tools' element={<VoiceAgent />} />
                     <Route path='/result/:projectId' element={<Result />} />
                     <Route path='/my-generation' element={<MyGenerations />} />
                     <Route path='/community' element={<Community />} />

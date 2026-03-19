@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react"
 import { SectionTitle } from "../components/section-title"
 import UploadZone from "../components/UploadZone"
@@ -6,11 +7,20 @@ import { useAuth, useUser } from "@clerk/clerk-react"
 import { useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import api from "../configs/axios"
+import axios from "axios"
+
+interface VoiceAgent {
+    id: string;
+    name: string;
+    voiceURI: string;
+    pitch: number;
+    rate: number;
+}
 
 const Generator = () => {
 
     const { user } = useUser();
-    const { getToken } = useAuth();
+    const { getToken, userId } = useAuth();
     const navigate = useNavigate();
 
     const [name, setName] = useState('')
@@ -21,6 +31,65 @@ const Generator = () => {
     const [modelImage, setModelImage] = useState<File | null>(null)
     const [userPrompt, setUserPrompt] = useState('')
     const [isGenerating, setIsGenerating] = useState(false)
+
+    // Voice Agent State
+    const [voiceAgents, setVoiceAgents] = useState<VoiceAgent[]>([]);
+    const [selectedAgentId, setSelectedAgentId] = useState<string>('');
+    const [voiceScript, setVoiceScript] = useState<string>('');
+    const [generatedAudio, setGeneratedAudio] = useState<string>('');
+    const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
+
+    useEffect(() => {
+        const fetchAgents = async () => {
+            if (!userId) return;
+            try {
+                const res = await axios.get(`http://localhost:5000/api/voice-agent/list?userId=${userId}`);
+                if (res.data.success) {
+                    setVoiceAgents(res.data.agents);
+                }
+            } catch (error) {
+                console.error("Failed to fetch agents:", error);
+            }
+        };
+        fetchAgents();
+    }, [userId]);
+
+    const handleGenerateAudioPreview = async () => {
+        if (!selectedAgentId || !voiceScript) {
+            toast.error("Please select a voice agent and enter a script.");
+            return;
+        }
+
+        const agent = voiceAgents.find(a => a.id === selectedAgentId);
+        if (!agent) return;
+
+        setIsGeneratingAudio(true);
+        try {
+            const response = await axios.post('http://localhost:5000/api/voice-agent/generate-speech', {
+                text: voiceScript,
+                voiceURI: agent.voiceURI,
+                pitch: agent.pitch,
+                rate: agent.rate
+            });
+
+            if (response.data.success && response.data.audioContent) {
+                const audioUrl = `data:audio/mp3;base64,${response.data.audioContent}`;
+                setGeneratedAudio(audioUrl);
+                toast.success("Audio generated successfully!");
+            } else {
+                toast.error("Failed to generate audio.");
+            }
+        } catch (error: any) {
+            console.error("Error generating speech:", error);
+            if (error.response?.status === 402) {
+                toast.error("ElevenLabs credit limit reached. Please use a free basic voice.");
+            } else {
+                toast.error("Failed to generate audio.");
+            }
+        } finally {
+            setIsGeneratingAudio(false);
+        }
+    };
 
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'product' | 'model') => {
@@ -47,6 +116,9 @@ const Generator = () => {
             formData.append('aspectRatio', aspectRatio);
             formData.append('images', productImage);
             formData.append('images', modelImage);
+            if (generatedAudio) {
+                formData.append('generatedAudio', generatedAudio);
+            }
 
             const token = await getToken();
             const { data } = await api.post('/api/project/create', formData, {
@@ -113,9 +185,56 @@ const Generator = () => {
                         </div>
                         {/* user Prompt */}
                         <div className='mb-4 text-gray-300'>
-                            <label htmlFor="userPrompt" className='block text-sm mb-4'>User Prompt <span className='text-xs text-indigo-600'>(optional)</span></label>
+                            <label htmlFor="userPrompt" className='block text-sm mb-4'>Image Generation Prompt <span className='text-xs text-indigo-600'>(optional)</span></label>
 
-                            <textarea id='userPrompt' rows={4} value={userPrompt} onChange={(e) => setUserPrompt(e.target.value)} placeholder='Describe how you want the narration to be.' className='w-full bg-white/3 rounded-lg border-2 border-white/50 focus:border-white p-4 text-sm outline-none resize-none' />
+                            <textarea id='userPrompt' rows={4} value={userPrompt} onChange={(e) => setUserPrompt(e.target.value)} placeholder='Describe how you want the image to look.' className='w-full bg-white/3 rounded-lg border-2 border-white/50 focus:border-white p-4 text-sm outline-none resize-none' />
+                        </div>
+
+                        {/* Voice Agent Selection */}
+                        <div className='mb-4 p-5 border border-white rounded'>
+                            <h3 className="text-lg font-semibold text-indigo-300 mb-4 flex items-center gap-2">🎤 Voice Narration (Optional)</h3>
+                            
+                            <label htmlFor="agentSelect" className='block text-sm mb-2 text-gray-300'>Select Voice Agent</label>
+                            <select 
+                                id="agentSelect" 
+                                value={selectedAgentId} 
+                                onChange={(e) => setSelectedAgentId(e.target.value)}
+                                className='w-full  bg-white/3 rounded-lg border-2 border-white/50 focus:border-white p-4 text-sm outline-none resize-none'
+                            >
+                                <option value="">-- No Voice Narration --</option>
+                                {voiceAgents.map(agent => (
+                                    <option key={agent.id} value={agent.id}>{agent.name}</option>
+                                ))}
+                            </select>
+
+                            {selectedAgentId && (
+                                <>
+                                    <label htmlFor="voiceScript" className='block text-sm mb-2 text-gray-300'>Narration Script</label>
+                                    <textarea 
+                                        id='voiceScript' 
+                                        rows={3} 
+                                        value={voiceScript} 
+                                        onChange={(e) => setVoiceScript(e.target.value)} 
+                                        placeholder='Enter the script for your voice agent to read...' 
+                                        className='w-full bg-white/3 rounded-lg border-2 border-white/50 focus:border-white p-4  text-sm outline-none resize-none mb-3' 
+                                    />
+                                    
+                                    <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
+                                        <button 
+                                            type="button" 
+                                            onClick={handleGenerateAudioPreview} 
+                                            disabled={isGeneratingAudio || !voiceScript}
+                                            className='px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm transition-colors disabled:opacity-50 w-full sm:w-auto'
+                                        >
+                                            {isGeneratingAudio ? 'Generating...' : 'Generate Audio Preview'}
+                                        </button>
+                                        
+                                        {generatedAudio && (
+                                            <audio src={generatedAudio} controls className="h-10 w-full sm:max-w-[200px]" />
+                                        )}
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>

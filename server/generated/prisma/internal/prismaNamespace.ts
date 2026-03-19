@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  VoiceAgent: 'VoiceAgent',
   Project: 'Project'
 } as const
 
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "project"
+    modelProps: "user" | "voiceAgent" | "project"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -476,6 +477,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    VoiceAgent: {
+      payload: Prisma.$VoiceAgentPayload<ExtArgs>
+      fields: Prisma.VoiceAgentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VoiceAgentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoiceAgentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VoiceAgentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoiceAgentPayload>
+        }
+        findFirst: {
+          args: Prisma.VoiceAgentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoiceAgentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VoiceAgentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoiceAgentPayload>
+        }
+        findMany: {
+          args: Prisma.VoiceAgentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoiceAgentPayload>[]
+        }
+        create: {
+          args: Prisma.VoiceAgentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoiceAgentPayload>
+        }
+        createMany: {
+          args: Prisma.VoiceAgentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VoiceAgentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoiceAgentPayload>[]
+        }
+        delete: {
+          args: Prisma.VoiceAgentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoiceAgentPayload>
+        }
+        update: {
+          args: Prisma.VoiceAgentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoiceAgentPayload>
+        }
+        deleteMany: {
+          args: Prisma.VoiceAgentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VoiceAgentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VoiceAgentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoiceAgentPayload>[]
+        }
+        upsert: {
+          args: Prisma.VoiceAgentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoiceAgentPayload>
+        }
+        aggregate: {
+          args: Prisma.VoiceAgentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVoiceAgent>
+        }
+        groupBy: {
+          args: Prisma.VoiceAgentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VoiceAgentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VoiceAgentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VoiceAgentCountAggregateOutputType> | number
         }
       }
     }
@@ -605,6 +680,21 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const VoiceAgentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  userId: 'userId',
+  voiceURI: 'voiceURI',
+  pitch: 'pitch',
+  rate: 'rate',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VoiceAgentScalarFieldEnum = (typeof VoiceAgentScalarFieldEnum)[keyof typeof VoiceAgentScalarFieldEnum]
+
+
 export const ProjectScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -617,6 +707,7 @@ export const ProjectScalarFieldEnum = {
   uploadedImages: 'uploadedImages',
   generatedImage: 'generatedImage',
   generatedVideo: 'generatedVideo',
+  generatedAudio: 'generatedAudio',
   isGenerating: 'isGenerating',
   isPublished: 'isPublished',
   error: 'error',
@@ -692,13 +783,6 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -709,6 +793,13 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 /**
@@ -807,6 +898,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  voiceAgent?: Prisma.VoiceAgentOmit
   project?: Prisma.ProjectOmit
 }
 

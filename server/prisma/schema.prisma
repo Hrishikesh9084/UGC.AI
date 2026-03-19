@@ -24,6 +24,23 @@ model User {
 
   // Relations
   projects     Project[]
+  voiceAgents  VoiceAgent[]
+}
+
+model VoiceAgent {
+  id          String   @id @default(uuid())
+  name        String
+  userId      String
+  voiceURI    String
+  pitch       Float    @default(1.0)
+  rate        Float    @default(1.0)
+  description String   @default("")
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Project {
@@ -38,6 +55,7 @@ model Project {
   uploadedImages     String[]
   generatedImage     String   @default("")
   generatedVideo     String   @default("")
+  generatedAudio     String   @default("")
   isGenerating       Boolean  @default(false)
   isPublished        Boolean  @default(false)
   error              String   @default("")

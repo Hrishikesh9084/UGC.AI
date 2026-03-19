@@ -4,6 +4,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { HarmBlockThreshold, HarmCategory } from '@google/genai';
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import ai from "../configs/ai.js";
 import axios from "axios";
 const loadImage = (path, mimeType) => {
@@ -19,7 +20,7 @@ export const createProject = async (req, res) => {
     let tempProjectId;
     const { userId } = req.auth();
     let isCreditDeducted = false;
-    const { name = 'New Project', aspectRatio, userPrompt, productName, productDescription, targetLength = 5 } = req.body;
+    const { name = 'New Project', aspectRatio, userPrompt, productName, productDescription, targetLength = 5, generatedAudio } = req.body;
     const images = req.files;
     if (images.length < 2 || !productName) {
         return res.status(400).json({ message: "Please provide at least 2 images." });
@@ -44,6 +45,16 @@ export const createProject = async (req, res) => {
             let result = await cloudinary.uploader.upload(item.path, { resource_type: 'image' });
             return result.secure_url;
         }));
+        let audioUrl = "";
+        if (generatedAudio) {
+            if (generatedAudio.startsWith('data:audio')) {
+                const uploadResult = await cloudinary.uploader.upload(generatedAudio, { resource_type: 'video' }); // Cloudinary treats audio as video
+                audioUrl = uploadResult.secure_url;
+            }
+            else {
+                audioUrl = generatedAudio;
+            }
+        }
         const project = await prisma.project.create({
             data: {
                 name,
@@ -54,6 +65,7 @@ export const createProject = async (req, res) => {
                 aspectRatio,
                 targetLength: parseInt(targetLength),
                 uploadedImages,
+                generatedAudio: audioUrl,
                 isGenerating: true
             }
         });
@@ -215,8 +227,9 @@ export const createVideo = async (req, res) => {
             });
         }
         const filename = `${userId}-${Date.now()}.mp4`;
-        const filepath = path.join('videos', filename);
-        fs.mkdirSync('videos', { recursive: true });
+        const videosDir = path.join(os.tmpdir(), 'videos');
+        const filepath = path.join(videosDir, filename);
+        fs.mkdirSync(videosDir, { recursive: true });
         if (!operation.response || !operation.response.generatedVideos || operation.response.generatedVideos.length === 0) {
             let errorMessage = 'Video generation failed';
             if (operation.response && operation.response.raiMediaFilteredReason && operation.response.raiMediaFilteredReason.length > 0) {
@@ -268,9 +281,50 @@ export const createVideo = async (req, res) => {
 export const getAllPublishedProjects = async (req, res) => {
     try {
         const projects = await prisma.project.findMany({
-            where: { isPublished: true }
+            where: { isPublished: true },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
         });
         res.json({ projects });
+    }
+    catch (error) {
+        Sentry.captureException(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+// Get one published project by id (public)
+export const getPublishedProjectById = async (req, res) => {
+    try {
+        const { projectId } = req.params;
+        const project = await prisma.project.findFirst({
+            where: {
+                id: projectId,
+                isPublished: true,
+            },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                    }
+                }
+            }
+        });
+        if (!project) {
+            return res.status(404).json({ message: 'Published project not found' });
+        }
+        res.json({ project });
     }
     catch (error) {
         Sentry.captureException(error);

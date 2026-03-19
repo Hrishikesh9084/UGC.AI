@@ -25,7 +25,7 @@ export const createProject = async (req: Request, res: Response) => {
     const { userId } = req.auth();
     let isCreditDeducted = false;
 
-    const { name = 'New Project', aspectRatio, userPrompt, productName, productDescription, targetLength = 5 } = req.body;
+    const { name = 'New Project', aspectRatio, userPrompt, productName, productDescription, targetLength = 5, generatedAudio } = req.body;
 
     const images: any = req.files;
 
@@ -56,6 +56,16 @@ export const createProject = async (req: Request, res: Response) => {
             return result.secure_url;
         })
         )
+        let audioUrl = "";
+        if (generatedAudio) {
+            if (generatedAudio.startsWith('data:audio')) {
+                const uploadResult = await cloudinary.uploader.upload(generatedAudio, { resource_type: 'video' }); // Cloudinary treats audio as video
+                audioUrl = uploadResult.secure_url;
+            } else {
+                audioUrl = generatedAudio;
+            }
+        }
+
         const project = await prisma.project.create({
             data: {
                 name,
@@ -66,6 +76,7 @@ export const createProject = async (req: Request, res: Response) => {
                 aspectRatio,
                 targetLength: parseInt(targetLength),
                 uploadedImages,
+                generatedAudio: audioUrl,
                 isGenerating: true
             }
         })

@@ -40,6 +40,7 @@ export const JsonNull = runtime.JsonNull;
 export const AnyNull = runtime.AnyNull;
 export const ModelName = {
     User: 'User',
+    VoiceAgent: 'VoiceAgent',
     Project: 'Project'
 };
 /*
@@ -60,6 +61,17 @@ export const UserScalarFieldEnum = {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };
+export const VoiceAgentScalarFieldEnum = {
+    id: 'id',
+    name: 'name',
+    userId: 'userId',
+    voiceURI: 'voiceURI',
+    pitch: 'pitch',
+    rate: 'rate',
+    description: 'description',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
 export const ProjectScalarFieldEnum = {
     id: 'id',
     name: 'name',
@@ -72,6 +84,7 @@ export const ProjectScalarFieldEnum = {
     uploadedImages: 'uploadedImages',
     generatedImage: 'generatedImage',
     generatedVideo: 'generatedVideo',
+    generatedAudio: 'generatedAudio',
     isGenerating: 'isGenerating',
     isPublished: 'isPublished',
     error: 'error',
