@@ -13,7 +13,7 @@ export const Footer = () => {
                             width={130}
                             height={130}
                         /> */}
-                        <h1 className="text-4xl font-semibold">UGC.<span className="text-indigo-700">AI</span></h1>
+                        <h1 className="text-4xl font-semibold">Genify.<span className="text-indigo-700">AI</span></h1>
                         <p className="mt-6 text-sm/7 max-w-sm text-gray-500">
                             Create viral UGC in seconds. Upload product images and a model photo — our AI instantly produces professional lifestyle imagery and short-form videos.
                         </p>
