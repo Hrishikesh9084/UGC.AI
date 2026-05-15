@@ -70,7 +70,7 @@ export const Footer = () => {
                 <p className="text-gray-500 py-6 text-center">
                     Copyright {new Date().getFullYear()} &copy;
                     <Link to="/">
-                        UGC.AI
+                        Genify.AI
                     </Link>{' '}
                     All Right Reserved.
                 </p>
