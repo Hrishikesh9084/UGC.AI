@@ -21,6 +21,9 @@ export const Navbar = () => {
         // { name: "VoiceAgent", href: "/tools" },
         { name: "Generate", href: "/generate" },
         { name: "Community", href: "/community" },
+        { name: "VoiceAgent", href: "/tools" },
+        { name: "Generate", href: "/generate" },
+        { name: "Explore", href: "/community" },
         { name: "Plans", href: "/plans" },
     ];
 

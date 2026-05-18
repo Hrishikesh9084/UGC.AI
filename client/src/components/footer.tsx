@@ -13,7 +13,11 @@ export const Footer = () => {
                             width={130}
                             height={130}
                         /> */}
+<<<<<<< HEAD
                         <h1 className="text-4xl font-semibold">Genify<span className="text-lg">.</span><span className="text-indigo-700">AI</span></h1>
+=======
+                        <h1 className="text-4xl font-semibold">Genify.<span className="text-indigo-700">AI</span></h1>
+>>>>>>> 5d96ee13b657c2c8b32526f63bbfd2f8ec68bb1a
                         <p className="mt-6 text-sm/7 max-w-sm text-gray-500">
                             Create viral UGC in seconds. Upload product images and a model photo — our AI instantly produces professional lifestyle imagery and short-form videos.
                         </p>
@@ -21,6 +25,7 @@ export const Footer = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <h4 className="font-urbanist text-lg/8 font-semibold">
+<<<<<<< HEAD
                                 <Link to="/" className="hover:underline">
                                 Home
                                 </Link>
@@ -41,6 +46,25 @@ export const Footer = () => {
                                     <Link to="/plans" className="hover:underline">
                                         Pricing
                                     </Link>
+=======
+                                Home
+                            </h4>
+                            <ul className="mt-3">
+                                <li className="text-sm/7 text-gray-500">
+                                    <a href="#" className="hover:underline">
+                                        Features
+                                    </a>
+                                </li>
+                                <li className="text-sm/7 text-gray-500">
+                                    <a href="#" className="hover:underline">
+                                        Generator
+                                    </a>
+                                </li>
+                                <li className="text-sm/7 text-gray-500">
+                                    <a href="#" className="hover:underline">
+                                        Pricing
+                                    </a>
+>>>>>>> 5d96ee13b657c2c8b32526f63bbfd2f8ec68bb1a
                                 </li>
                                 <li className="text-sm/7 text-gray-500">
                                     <a href="#" className="hover:underline">
@@ -55,12 +79,20 @@ export const Footer = () => {
                             </h4>
                             <ul className="mt-3">
                                 <li className="text-sm/7 text-gray-500">
+<<<<<<< HEAD
                                     <Link to="/privacy-policy" className="hover:underline">
+=======
+                                    <Link to="#" className="hover:underline">
+>>>>>>> 5d96ee13b657c2c8b32526f63bbfd2f8ec68bb1a
                                         Privacy Policy
                                     </Link>
                                 </li>
                                 <li className="text-sm/7 text-gray-500">
+<<<<<<< HEAD
                                     <Link to="/terms-of-service" className="hover:underline">
+=======
+                                    <Link to='' className="hover:underline">
+>>>>>>> 5d96ee13b657c2c8b32526f63bbfd2f8ec68bb1a
                                         Terms of Service
                                     </Link>
                                 </li>
@@ -73,12 +105,20 @@ export const Footer = () => {
                 <p className="text-gray-500 py-6 text-center">
                     Copyright {new Date().getFullYear()} &copy;
                     <Link to="/">
+<<<<<<< HEAD
                         Genify.ai
                         
+=======
+                        Genify.AI
+>>>>>>> 5d96ee13b657c2c8b32526f63bbfd2f8ec68bb1a
                     </Link>{' '}
                     All Right Reserved.
                 </p>
             </div>
         </>
     );
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 5d96ee13b657c2c8b32526f63bbfd2f8ec68bb1a

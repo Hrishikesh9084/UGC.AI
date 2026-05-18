@@ -39,7 +39,11 @@ export const HeroSection = () => {
 
             </div>
 
+<<<<<<< HEAD
             {/* {isDemoOpen && (
+=======
+            {isDemoOpen && (
+>>>>>>> 5d96ee13b657c2c8b32526f63bbfd2f8ec68bb1a
                 <div
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4"
                     onClick={() => setIsDemoOpen(false)}
@@ -76,7 +80,11 @@ export const HeroSection = () => {
                         />
                     </div>
                 </div>
+<<<<<<< HEAD
             )} */}
+=======
+            )}
+>>>>>>> 5d96ee13b657c2c8b32526f63bbfd2f8ec68bb1a
         </>
     );
 };

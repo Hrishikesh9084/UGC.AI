@@ -191,7 +191,11 @@ const Generator = () => {
                         </div>
 
                         {/* Voice Agent Selection */}
+<<<<<<< HEAD
                         {/* <div className='mb-4 p-5 border border-white rounded'>
+=======
+                        <div className='mb-4 p-5 border border-white rounded'>
+>>>>>>> 5d96ee13b657c2c8b32526f63bbfd2f8ec68bb1a
                             <h3 className="text-lg font-semibold text-indigo-300 mb-4 flex items-center gap-2">🎤 Voice Narration (Optional)</h3>
                             
                             <label htmlFor="agentSelect" className='block text-sm mb-2 text-gray-300'>Select Voice Agent</label>
@@ -235,7 +239,11 @@ const Generator = () => {
                                     </div>
                                 </>
                             )}
+<<<<<<< HEAD
                         </div> */}
+=======
+                        </div>
+>>>>>>> 5d96ee13b657c2c8b32526f63bbfd2f8ec68bb1a
                     </div>
                 </div>
                 <div className='flex justify-center mt-10'>
