@@ -39,11 +39,7 @@ export const HeroSection = () => {
 
             </div>
 
-<<<<<<< HEAD
-            {/* {isDemoOpen && (
-=======
             {isDemoOpen && (
->>>>>>> 5d96ee13b657c2c8b32526f63bbfd2f8ec68bb1a
                 <div
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4"
                     onClick={() => setIsDemoOpen(false)}
@@ -64,10 +60,12 @@ export const HeroSection = () => {
                             type="button"
                             className="absolute left-3 bottom-3 z-10 rounded-full bg-black/60 p-2 text-white hover:bg-black/80"
                             onClick={() => setIsDemoMuted((prev) => !prev)}
-                            aria-label={isDemoMuted ? 'Unmute video' : 'Mute video'}
-                            title={isDemoMuted ? 'Unmute video' : 'Mute video'}
                         >
-                            {isDemoMuted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
+                            {isDemoMuted ? (
+                                <VolumeX className="size-5" />
+                            ) : (
+                                <Volume2 className="size-5" />
+                            )}
                         </button>
 
                         <video
@@ -75,16 +73,11 @@ export const HeroSection = () => {
                             muted={isDemoMuted}
                             autoPlay
                             loop
-
                             className="aspect-video w-full bg-black"
                         />
                     </div>
                 </div>
-<<<<<<< HEAD
-            )} */}
-=======
             )}
->>>>>>> 5d96ee13b657c2c8b32526f63bbfd2f8ec68bb1a
         </>
     );
 };
